@@ -4,7 +4,7 @@ import { AiFillGithub, AiFillLinkedin } from "react-icons/ai";
 export default function Header() {
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 
+      className="sticky top-0 z-50 
       bg-white/90 dark:bg-zinc-900/80 
       backdrop-blur 
       border-b border-gray-200 dark:border-zinc-700 
