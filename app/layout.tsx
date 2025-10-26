@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Header from "@/components/common/Header";
+import Footer from "@/components/common/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -19,7 +21,11 @@ export default function RootLayout({
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
         />
       </head>
-      <body>{children}</body>
+      <body className="flex min-h-screen flex-col dark:bg-black transition-colors">
+        <Header />
+        <main className="flex-1 w-full mx-auto max-w-6xl p-6">{children}</main>
+        <Footer />
+      </body>
     </html>
   );
 }

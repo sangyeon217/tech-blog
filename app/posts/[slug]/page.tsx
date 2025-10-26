@@ -19,9 +19,9 @@ export default async function Post({ params }: Props) {
   if (!post) return notFound();
 
   return (
-    <main className="mx-auto max-w-6xl p-6">
+    <>
       <PostHead post={post} />
       <PostBody markdown={String(post.fields.content)} />
-    </main>
+    </>
   );
 }

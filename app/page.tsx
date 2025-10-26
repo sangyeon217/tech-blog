@@ -1,6 +1,4 @@
 import { getCategories, getPosts } from "@/lib/contentful";
-import Header from "@/components/common/Header";
-import Footer from "@/components/common/Footer";
 import Error from "@/components/common/Error";
 import Introduction from "@/components/home/Introduction";
 import CategoryList from "@/components/home/CategoryList";
@@ -24,18 +22,12 @@ export default async function Home({ searchParams }: Props) {
     categoriesRes.success && postsRes.success && postsRes.data.items.length > 0;
 
   return (
-    <div className="flex min-h-screen flex-col justify-between bg-zinc-50 dark:bg-black transition-colors">
-      <Header />
-      <main className="w-full max-w-6xl mx-auto p-6 flex-grow">
-        <Introduction />
-
-        {displayCategories && (
-          <CategoryList categories={categoriesRes.data} current={currentCategory} />
-        )}
-
-        {postsRes.success ? <PostList posts={postsRes.data.items} /> : <Error />}
-      </main>
-      <Footer />
-    </div>
+    <>
+      <Introduction />
+      {displayCategories && (
+        <CategoryList categories={categoriesRes.data} current={currentCategory} />
+      )}
+      {postsRes.success ? <PostList posts={postsRes.data.items} /> : <Error />}
+    </>
   );
 }
