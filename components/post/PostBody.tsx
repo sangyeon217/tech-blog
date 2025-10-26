@@ -8,6 +8,7 @@ import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 import { defaultSchema } from "hast-util-sanitize";
 import TableOfContents from "./TableOfContents";
+import Comment from "@/components/post/Comment";
 
 type Props = { markdown: string };
 
@@ -120,6 +121,12 @@ export default function PostBody({ markdown }: Props) {
           >
             {markdown}
           </ReactMarkdown>
+
+          <hr className="my-12" />
+
+          <section id="comments" aria-label="Comments" className="not-prose mt-8 max-w-3xl">
+            <Comment />
+          </section>
         </article>
         <aside className="hidden lg:block">
           <TableOfContents />
