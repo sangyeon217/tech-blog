@@ -20,13 +20,13 @@ export default function PostItem({ post }: Props) {
       <Link
         href={`/posts/${slug}`}
         aria-label={`${title} 포스트로 이동`}
-        className="absolute inset-0 z-0 pointer-events-auto
+        className="absolute inset-0 z-10 pointer-events-auto
         focus-visible:outline-none focus-visible:ring-2
         focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-white
         dark:focus-visible:ring-white dark:focus-visible:ring-offset-black"
         prefetch={false}
       />
-      <div className="relative z-10">
+      <div className="relative z-20 pointer-events-none">
         <div className="relative h-[200px] w-full bg-gray-50 dark:bg-zinc-800">
           {thumbnailUrl ? (
             <Image
@@ -67,7 +67,7 @@ export default function PostItem({ post }: Props) {
                     key={category}
                     href={href}
                     prefetch={false}
-                    className="relative z-20 inline-flex h-6 items-center rounded-md px-2 text-xs leading-none
+                    className="relative z-30 pointer-events-auto inline-flex h-6 items-center rounded-md px-2 text-xs leading-none
                       text-zinc-700 bg-zinc-100 hover:bg-zinc-200
                       dark:text-zinc-300 dark:bg-zinc-800 dark:hover:bg-zinc-700
                       transition-colors"
