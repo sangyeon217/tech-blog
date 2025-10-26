@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Item = { id: string; text: string; level: number };
 
@@ -22,6 +22,29 @@ export default function TableOfContents({
 }) {
   const [items, setItems] = useState<Item[]>([]);
   const [activeId, setActiveId] = useState<string>("");
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  const initObserver = (tocList: Item[]) => {
+    if (observerRef.current) observerRef.current.disconnect();
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveId((entry.target as HTMLElement).id);
+          }
+        });
+      },
+      { rootMargin: "0px 0px -70% 0px", threshold: 0.01 }
+    );
+
+    tocList.forEach((item) => {
+      const headingElement = document.getElementById(item.id);
+      if (headingElement) observer.observe(headingElement);
+    });
+
+    observerRef.current = observer;
+  };
 
   useEffect(() => {
     const root = document.querySelector(containerSelector);
@@ -40,28 +63,36 @@ export default function TableOfContents({
       }));
 
     setItems(tocList);
+    initObserver(tocList);
 
-    const headingObserver = new IntersectionObserver(
-      (entries: IntersectionObserverEntry[]) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveId((entry.target as HTMLElement).id);
-        });
-      },
-      { rootMargin: "0px 0px -70% 0px", threshold: 0.01 }
-    );
-
-    tocList.forEach((item) => {
-      const headingElement = document.getElementById(item.id);
-      if (headingElement) headingObserver.observe(headingElement);
-    });
-    return () => headingObserver.disconnect();
+    return () => observerRef.current?.disconnect();
   }, [containerSelector, minLevel, maxLevel]);
 
   const onJump = (id: string) => {
     const headingElement = document.getElementById(id);
     if (!headingElement) return;
+
+    setActiveId(id);
+    observerRef.current?.disconnect();
+
     headingElement.scrollIntoView({ behavior: "smooth", block: "start" });
     history.replaceState(null, "", `#${id}`);
+
+    setTimeout(() => {
+      const headings = Array.from(document.querySelectorAll<HTMLElement>("h1, h2, h3, h4, h5, h6"));
+      const tocList = headings
+        .filter((h) => {
+          const level = Number(h.tagName[1]);
+          return h.id && level >= minLevel && level <= maxLevel;
+        })
+        .map((h) => ({
+          id: h.id,
+          text: getHeadingText(h),
+          level: Number(h.tagName[1]),
+        }));
+
+      initObserver(tocList);
+    }, 1000);
   };
 
   if (items.length === 0) return null;
