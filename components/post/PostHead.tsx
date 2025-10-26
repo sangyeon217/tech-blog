@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { type PostEntry, getThumbnailUrl, formatPublishedAt } from "@/lib/contentful";
+import CategoryBadge from "../common/CategoryBadge";
 
 type Props = { post: PostEntry };
 
@@ -16,14 +17,11 @@ export default function PostHead({ post }: Props) {
         {Array.isArray(categories) && categories.length > 0 && (
           <div className="flex flex-wrap items-center gap-2">
             {categories.map((category) => (
-              <span
+              <CategoryBadge
                 key={category}
-                aria-label={`카테고리 ${category}`}
-                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium bg-gray-100 text-gray-700 ring-1 ring-inset ring-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:ring-gray-700"
-              >
-                <span aria-hidden="true">#</span>
-                {category}
-              </span>
+                category={category}
+                classes="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium bg-gray-100 text-gray-700 ring-1 ring-inset ring-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:ring-gray-700"
+              />
             ))}
           </div>
         )}

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { type PostEntry, getThumbnailUrl, formatPublishedAt } from "@/lib/contentful";
+import CategoryBadge from "../common/CategoryBadge";
 
 type Props = { post: PostEntry };
 
@@ -60,22 +61,16 @@ export default function PostItem({ post }: Props) {
           <div className="mt-3 min-h-[1.5rem] flex flex-wrap gap-1">
             {Array.isArray(categories) &&
               categories.length > 0 &&
-              categories.map((category) => {
-                const href = `/?category=${encodeURIComponent(category)}`;
-                return (
-                  <Link
-                    key={category}
-                    href={href}
-                    prefetch={false}
-                    className="relative z-30 pointer-events-auto inline-flex h-6 items-center rounded-md px-2 text-xs leading-none
-                      text-zinc-700 bg-zinc-100 hover:bg-zinc-200
-                      dark:text-zinc-300 dark:bg-zinc-800 dark:hover:bg-zinc-700
-                      transition-colors"
-                  >
-                    {category}
-                  </Link>
-                );
-              })}
+              categories.map((category) => (
+                <CategoryBadge
+                  key={category}
+                  category={category}
+                  classes="relative z-30 pointer-events-auto inline-flex h-6 items-center rounded-md px-2 text-xs leading-none
+                  text-zinc-700 bg-zinc-100 hover:bg-zinc-200
+                  dark:text-zinc-300 dark:bg-zinc-800 dark:hover:bg-zinc-700
+                  transition-colors"
+                />
+              ))}
           </div>
 
           <time
