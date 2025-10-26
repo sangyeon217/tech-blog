@@ -2,9 +2,9 @@ import { getCategories, getPosts } from "@/lib/contentful";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import Error from "@/components/common/Error";
-import Introduction from "@/components/main/Introduction";
-import CategoryList from "@/components/main/CategoryList";
-import PostList from "@/components/main/PostList";
+import Introduction from "@/components/home/Introduction";
+import CategoryList from "@/components/home/CategoryList";
+import PostList from "@/components/home/PostList";
 
 type SearchParams = { category?: string };
 type Props = { searchParams?: SearchParams };
