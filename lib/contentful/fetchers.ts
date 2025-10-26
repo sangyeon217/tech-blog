@@ -1,5 +1,5 @@
 import { createClient, type EntriesQueries } from "contentful";
-import type { CategoryItem, PostCollection, PostSkeleton, FetchResult } from "./types";
+import type { CategoryItem, PostCollection, PostSkeleton, PostEntry, FetchResult } from "./types";
 
 const SPACE_ID = process.env.CONTENTFUL_SPACE_ID!;
 const ENVIRONMENT = process.env.CONTENTFUL_ENVIRONMENT || "master";
@@ -90,6 +90,26 @@ export async function getPosts({
   try {
     const response = await client.getEntries<PostSkeleton>(query);
     return { success: true, data: response };
+  } catch (error) {
+    return { success: false, error };
+  }
+}
+
+/**
+ * 게시글 조회
+ */
+export async function getPostBySlug(slug: string): Promise<FetchResult<PostEntry | null>> {
+  const client = getClient();
+
+  try {
+    const response = await client.getEntries<PostSkeleton>({
+      content_type: "post",
+      "fields.slug": slug,
+      limit: 1,
+      include: 2,
+      locale: "ko-KR",
+    });
+    return { success: true, data: response.items[0] ?? null };
   } catch (error) {
     return { success: false, error };
   }

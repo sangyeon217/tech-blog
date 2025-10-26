@@ -1,4 +1,11 @@
 @import "tailwindcss";
+@plugin '@tailwindcss/typography';
+
+@import "highlight.js/styles/github-dark-dimmed.css";
+
+.hljs {
+  background: transparent !important;
+}
 
 :root {
   --background: #ffffff;
@@ -23,4 +30,67 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-pretendard);
+}
+
+@layer utilities {
+  .custom-tasklist :where(ul.contains-task-list, ol.contains-task-list) {
+    padding-left: 1.625em;
+  }
+
+  .custom-tasklist :where(li.task-list-item) {
+    list-style: none;
+  }
+
+  .custom-tasklist :where(li.task-list-item > input[type="checkbox"]) {
+    margin-left: -1.625em;
+    margin-right: 0.5rem;
+  }
+
+  .custom-table {
+    @apply w-full border-separate border border-gray-200 dark:border-gray-800 rounded-xl;
+    border-spacing: 0; /* Tailwind 유틸 대신 직접 지정 */
+  }
+
+  .custom-table thead th {
+    @apply bg-gray-100 dark:bg-gray-900/40 text-left text-sm font-semibold px-4 py-3;
+  }
+
+  .custom-table tbody td {
+    @apply px-4 py-3 align-top;
+  }
+
+  .custom-table thead th + th,
+  .custom-table tbody td + td {
+    @apply border-l border-gray-100 dark:border-gray-800/60;
+  }
+
+  .custom-table tbody tr + tr td {
+    @apply border-t border-gray-200 dark:border-gray-800;
+  }
+
+  .custom-table tbody tr:hover > * {
+    @apply !bg-gray-50 dark:!bg-gray-800/40;
+  }
+
+  .custom-table thead th:first-child {
+    border-top-left-radius: 0.75rem;
+  }
+  .custom-table thead th:last-child {
+    border-top-right-radius: 0.75rem;
+  }
+  .custom-table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 0.75rem;
+  }
+  .custom-table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 0.75rem;
+  }
+
+  .custom-table thead th:first-child,
+  .custom-table tbody td:first-child {
+    @apply pl-6 md:pl-8;
+  }
+  .custom-table thead th:last-child,
+  .custom-table tbody td:last-child {
+    @apply pr-6 md:pr-8;
+  }
 }
