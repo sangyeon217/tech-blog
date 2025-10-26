@@ -1,6 +1,7 @@
 import { getCategories, getPosts } from "@/lib/contentful";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
+import Error from "@/components/common/Error";
 import Introduction from "@/components/main/Introduction";
 import CategoryList from "@/components/main/CategoryList";
 import PostList from "@/components/main/PostList";
@@ -32,13 +33,7 @@ export default async function Home({ searchParams }: Props) {
           <CategoryList categories={categoriesRes.data} current={currentCategory} />
         )}
 
-        {!postsRes.success ? (
-          <div className="py-24 text-center text-gray-500 dark:text-gray-400">
-            게시글을 불러올 수 없습니다. 잠시 후 다시 시도해주세요.
-          </div>
-        ) : (
-          <PostList posts={postsRes.data.items} />
-        )}
+        {postsRes.success ? <PostList posts={postsRes.data.items} /> : <Error />}
       </main>
       <Footer />
     </div>
