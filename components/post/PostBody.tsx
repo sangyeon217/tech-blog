@@ -7,6 +7,7 @@ import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 import { defaultSchema } from "hast-util-sanitize";
+import TableOfContents from "./TableOfContents";
 
 type Props = { markdown: string };
 
@@ -120,6 +121,9 @@ export default function PostBody({ markdown }: Props) {
             {markdown}
           </ReactMarkdown>
         </article>
+        <aside className="hidden lg:block">
+          <TableOfContents />
+        </aside>
       </div>
     </section>
   );
