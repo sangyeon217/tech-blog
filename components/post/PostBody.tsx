@@ -1,5 +1,9 @@
+"use client";
+
+import React, { useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import type { Components } from "react-markdown";
+import { BsCopy, BsCheck } from "react-icons/bs";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
@@ -8,9 +12,34 @@ import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 import { defaultSchema } from "hast-util-sanitize";
 import TableOfContents from "./TableOfContents";
-import Comment from "@/components/post/Comment";
+import Comment from "./Comment";
+import { useClipboard } from "@/hooks/useClipboard";
+
+const CODE_LANG_LABEL_MAP: Record<string, string> = {
+  typescript: "TS",
+  ts: "TS",
+  javascript: "JS",
+  js: "JS",
+  tsx: "TSX",
+  jsx: "JSX",
+  bash: "SH",
+  sh: "SH",
+  shell: "SH",
+  json: "JSON",
+  yaml: "YAML",
+  yml: "YAML",
+  md: "MD",
+  markdown: "MD",
+  html: "HTML",
+  css: "CSS",
+  python: "PY",
+  py: "PY",
+  java: "JAVA",
+};
 
 type Props = { markdown: string };
+type CodeProps = { className?: string };
+type CodeElement = React.ReactElement<CodeProps>;
 
 const components: Components = {
   a: ({ href = "", children, ...props }) => {
@@ -27,6 +56,7 @@ const components: Components = {
     );
   },
   table: ({ node, ...props }) => <table className="custom-table" {...props} />,
+  pre: ({ node, ...props }) => <PreWithCopy {...props} />,
 };
 
 const detailsSchema = {
@@ -41,6 +71,70 @@ const detailsSchema = {
     ],
     summary: [...((defaultSchema.attributes?.summary as string[] | undefined) ?? []), "className"],
   },
+};
+
+const extractLangLabel = (node: React.ReactNode): string | null => {
+  if (!React.isValidElement<CodeProps>(node)) return null;
+  const className = node.props.className ?? "";
+  const language = className.match(/language-([a-z0-9+#-]+)/i);
+  if (!language) return null;
+  const raw = language[1].toLowerCase();
+  return CODE_LANG_LABEL_MAP[raw] ?? raw.toUpperCase();
+};
+
+const PreWithCopy = (props: React.HTMLAttributes<HTMLPreElement>) => {
+  const preRef = useRef<HTMLPreElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
+  const [copied, setCopied] = useState(false);
+
+  const firstChild = React.Children.toArray(props.children)[0] as CodeElement | undefined;
+  const langLabel = useMemo(() => (firstChild ? extractLangLabel(firstChild) : null), [firstChild]);
+
+  useClipboard({
+    btnRef,
+    getText: () => preRef.current?.querySelector("code")?.textContent ?? "",
+    onCopied: () => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    },
+    onError: () => alert("Failed to copy. Please try again!"),
+  });
+
+  return (
+    <pre
+      ref={preRef}
+      {...props}
+      className={[props.className, "relative group prose-pre:!m-0"].filter(Boolean).join(" ")}
+    >
+      {langLabel && (
+        <span
+          className="pointer-events-none absolute left-3 top-1.5 select-none
+          rounded-md px-1.5 py-[1px] text-[10px] font-normal
+          bg-white/5 text-gray-200 ring-1 ring-white/10
+          dark:bg-white/5"
+        >
+          {langLabel}
+        </span>
+      )}
+
+      <button
+        ref={btnRef}
+        type="button"
+        aria-label={copied ? "Copied" : "Copy code"}
+        title={copied ? "Copied" : "Copy code"}
+        className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-md
+        px-2 py-1 text-xs font-medium
+        bg-white/10 text-gray-200 ring-1 ring-white/15
+        hover:bg-white/20 transition
+        opacity-100 md:opacity-0 md:group-hover:opacity-100 focus-visible:opacity-100
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+      >
+        {copied ? <BsCheck /> : <BsCopy />}
+        {copied ? "Copied!" : "Copy"}
+      </button>
+      {props.children}
+    </pre>
+  );
 };
 
 export default function PostBody({ markdown }: Props) {
@@ -78,7 +172,7 @@ export default function PostBody({ markdown }: Props) {
 
             /* Code blocks */
             prose-pre:bg-[#0f172a] prose-pre:text-gray-100
-            prose-pre:rounded-xl prose-pre:shadow-sm prose-pre:overflow-x-auto prose-pre:shadow-sm
+            prose-pre:rounded-xl prose-pre:shadow-sm prose-pre:overflow-x-auto
 
             /* Images */
             prose-img:rounded-xl
