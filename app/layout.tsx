@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import AnalyticsTracker from "@/components/common/AnalyticsTracker";
+import BuyMeCoffeeWidget from "@/components/common/BuyMeCoffeeWidget";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -52,6 +53,8 @@ export default function RootLayout({
         <Header />
         <main className="flex-1 w-full mx-auto max-w-6xl p-6">{children}</main>
         <Footer />
+
+        <BuyMeCoffeeWidget />
       </body>
     </html>
   );
