@@ -145,7 +145,7 @@ export default function PostBody({ markdown }: Props) {
         <article
           id="post-article"
           className={`
-            prose prose-neutral dark:prose-invert max-w-none custom-tasklist 
+            prose prose-neutral dark:prose-invert max-w-none min-w-0 custom-tasklist
 
             /* Headings */
             prose-headings:font-extrabold prose-headings:relative prose-headings:tracking-tight
