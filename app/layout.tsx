@@ -40,6 +40,12 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
         />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="Sangyeon's Tech Blog RSS Feed"
+          href="/rss.xml"
+        />
       </head>
       <body className="flex min-h-screen flex-col dark:bg-black transition-colors">
         {/* Google Analytics */}
