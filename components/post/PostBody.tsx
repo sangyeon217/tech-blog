@@ -104,14 +104,14 @@ const PreWithCopy = (props: React.HTMLAttributes<HTMLPreElement>) => {
     <pre
       ref={preRef}
       {...props}
-      className={[props.className, "relative group prose-pre:!m-0"].filter(Boolean).join(" ")}
+      className={[props.className, "relative group pt-7 pr-12 pb-3 mb-4"].filter(Boolean).join(" ")}
     >
       {langLabel && (
         <span
-          className="pointer-events-none absolute left-3 top-1.5 select-none
-          rounded-md px-1.5 py-[1px] text-[10px] font-normal
-          bg-white/5 text-gray-200 ring-1 ring-white/10
-          dark:bg-white/5"
+          className="pointer-events-none absolute left-3 top-3 select-none
+          rounded-md px-1.5 py-[2px] text-[10px] font-medium leading-none
+          bg-white/10 text-gray-100 ring-1 ring-white/10
+          dark:bg-white/10 backdrop-blur-sm"
         >
           {langLabel}
         </span>
@@ -125,7 +125,8 @@ const PreWithCopy = (props: React.HTMLAttributes<HTMLPreElement>) => {
         className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-md
         px-2 py-1 text-xs font-medium
         bg-white/10 text-gray-200 ring-1 ring-white/15
-        hover:bg-white/20 transition
+        cursor-pointer hover:bg-white/20 hover:scale-105 active:scale-95
+        transition-transform transition-colors duration-150
         opacity-100 md:opacity-0 md:group-hover:opacity-100 focus-visible:opacity-100
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
       >
