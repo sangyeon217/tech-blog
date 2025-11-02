@@ -10,6 +10,20 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Sangyeon's Tech Blog",
   description: "상연의 기술 블로그 입니다.",
+  openGraph: {
+    type: "website",
+    title: "Sangyeon's Tech Blog",
+    description: "상연의 기술 블로그 입니다.",
+    url: "https://sangyeon.vercel.app",
+    images: [{ url: "/images/profile.jpeg" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sangyeon's Tech Blog",
+    description: "상연의 기술 블로그 입니다.",
+    images: ["/images/profile.jpeg"],
+  },
+  alternates: { canonical: "https://sangyeon.vercel.app" },
 };
 
 export default function RootLayout({
