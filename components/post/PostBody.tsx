@@ -173,6 +173,7 @@ export default function PostBody({ markdown }: Props) {
             /* Code blocks */
             prose-pre:bg-[#0f172a] prose-pre:text-gray-100
             prose-pre:rounded-xl prose-pre:shadow-sm prose-pre:overflow-x-auto
+            prose-pre:whitespace-pre-wrap prose-pre:break-words prose-pre:[overflow-wrap:anywhere]
 
             /* Images */
             prose-img:rounded-xl
