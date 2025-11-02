@@ -163,7 +163,13 @@ export default function PostBody({ markdown }: Props) {
             prose-blockquote:border-l-4 prose-blockquote:pl-4
 
             /* Links */
-            prose-a:underline-offset-4 hover:prose-a:text-blue-600
+            prose-a:underline-offset-4
+            [&_a:hover]:text-blue-600
+            [&_a]:transition-colors
+            [&_a:focus-visible]:outline-none
+            [&_a:focus-visible]:ring-2
+            [&_a:focus-visible]:ring-offset-2
+            [&_a:focus-visible]:ring-blue-500
 
             /* Inline code */
             prose-code:before:content-none prose-code:after:content-none
