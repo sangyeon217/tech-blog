@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const ogTitle = `${title} - Sangyeon's Tech Blog`;
   const ogDescription = String(description ?? "상연의 기술 블로그 입니다.");
   const ogImage = getThumbnailUrl(thumbnail) ?? "/images/profile.jpeg";
-  const ogUrl = `https://sangyeon.vercel.app/posts/${slug}`;
+  const ogUrl = `https://sangyeon217.vercel.app/posts/${slug}`;
 
   return {
     title: ogTitle,

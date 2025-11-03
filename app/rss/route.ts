@@ -12,7 +12,7 @@ export async function GET() {
            <channel>
              <title>Sangyeon's Tech Blog</title>
              <description>RSS feed unavailable</description>
-             <link>https://sangyeon.vercel.app</link>
+             <link>https://sangyeon217.vercel.app</link>
              <item>
                <title>Feed temporarily unavailable</title>
                <description>Unable to fetch posts at the moment.</description>
@@ -32,8 +32,8 @@ export async function GET() {
       const emptyFeed = new RSS({
         title: "Sangyeon's Tech Blog",
         description: "아직 게시글이 없습니다.",
-        site_url: "https://sangyeon.vercel.app",
-        feed_url: "https://sangyeon.vercel.app/rss.xml",
+        site_url: "https://sangyeon217.vercel.app",
+        feed_url: "https://sangyeon217.vercel.app/rss.xml",
       });
 
       return new Response(emptyFeed.xml({ indent: true }), {
@@ -44,8 +44,8 @@ export async function GET() {
     const feed = new RSS({
       title: "Sangyeon's Tech Blog",
       description: "상연의 기술 블로그입니다.",
-      site_url: "https://sangyeon.vercel.app",
-      feed_url: "https://sangyeon.vercel.app/rss.xml",
+      site_url: "https://sangyeon217.vercel.app",
+      feed_url: "https://sangyeon217.vercel.app/rss.xml",
     });
 
     posts.items.forEach((post) => {
@@ -54,7 +54,7 @@ export async function GET() {
       feed.item({
         title: String(title),
         description: String(description || ""),
-        url: `https://sangyeon.vercel.app/posts/${slug}`,
+        url: `https://sangyeon217.vercel.app/posts/${slug}`,
         date: new Date(String(publishedAt)).toUTCString(),
       });
     });
@@ -69,7 +69,7 @@ export async function GET() {
          <channel>
            <title>Sangyeon's Tech Blog</title>
            <description>Feed generation failed due to a server error.</description>
-           <link>https://sangyeon.vercel.app</link>
+           <link>https://sangyeon217.vercel.app</link>
            <item>
              <title>Feed unavailable</title>
              <description>Please try again later.</description>

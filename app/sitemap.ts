@@ -1,7 +1,7 @@
 import { getPosts } from "@/lib/contentful";
 
 export default async function sitemap() {
-  const baseUrl = "https://sangyeon.vercel.app";
+  const baseUrl = "https://sangyeon217.vercel.app";
 
   try {
     const postsRes = await getPosts({ category: "All" });

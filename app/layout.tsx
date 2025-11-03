@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     type: "website",
     title: "Sangyeon's Tech Blog",
     description: "상연의 기술 블로그 입니다.",
-    url: "https://sangyeon.vercel.app",
+    url: "https://sangyeon217.vercel.app",
     images: [{ url: "/images/profile.jpeg" }],
   },
   twitter: {
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     description: "상연의 기술 블로그 입니다.",
     images: ["/images/profile.jpeg"],
   },
-  alternates: { canonical: "https://sangyeon.vercel.app" },
+  alternates: { canonical: "https://sangyeon217.vercel.app" },
 };
 
 export default function RootLayout({
