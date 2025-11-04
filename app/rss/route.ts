@@ -46,6 +46,7 @@ export async function GET() {
       description: "상연의 기술 블로그입니다.",
       site_url: "https://sangyeon217.vercel.app",
       feed_url: "https://sangyeon217.vercel.app/rss.xml",
+      image_url: "https://sangyeon217.vercel.app/favicon.ico",
     });
 
     posts.items.forEach((post) => {
