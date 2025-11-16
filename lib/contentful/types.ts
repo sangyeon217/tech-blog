@@ -14,6 +14,7 @@ export interface PostSkeleton extends EntrySkeletonType {
     category?: EntryFieldTypes.Array<EntryFieldTypes.Symbol>;
     content: EntryFieldTypes.Text;
     thumbnail: EntryFieldTypes.AssetLink;
+    thumbnailDominantColor?: EntryFieldTypes.Symbol;
     publishedAt: EntryFieldTypes.Date;
   };
 }

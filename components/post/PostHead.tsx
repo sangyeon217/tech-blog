@@ -5,7 +5,7 @@ import CategoryBadge from "../common/CategoryBadge";
 type Props = { post: PostEntry };
 
 export default function PostHead({ post }: Props) {
-  const { title, category, publishedAt, thumbnail } = post.fields;
+  const { title, category, publishedAt, thumbnail, thumbnailDominantColor } = post.fields;
   const categories = category ?? [];
   const thumbnailUrl = getThumbnailUrl(thumbnail);
 
@@ -34,13 +34,16 @@ export default function PostHead({ post }: Props) {
       </div>
 
       {thumbnailUrl && (
-        <div className="relative w-full h-56 md:h-80 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800">
+        <div
+          className="relative w-full h-56 md:h-80 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800"
+          style={{ backgroundColor: String(thumbnailDominantColor) }}
+        >
           <Image
             src={thumbnailUrl}
             alt={String(title)}
             fill
             sizes="(max-width: 768px) 100vw, 1024px"
-            className="object-cover"
+            className="object-contain"
             priority
           />
         </div>
