@@ -61,7 +61,10 @@ export default async function Post({ params }: Props) {
   return (
     <>
       <PostHead post={post} />
-      <PostBody markdown={String(post.fields.content)} />
+      <PostBody
+        markdown={String(post.fields.content)}
+        categories={Array.isArray(post.fields.category) ? post.fields.category : []}
+      />
     </>
   );
 }

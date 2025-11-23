@@ -12,6 +12,7 @@ import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 import { defaultSchema } from "hast-util-sanitize";
 import TableOfContents from "./TableOfContents";
+import CategoryBadge from "../common/CategoryBadge";
 import Comment from "./Comment";
 import { useClipboard } from "@/hooks/useClipboard";
 
@@ -37,7 +38,7 @@ const CODE_LANG_LABEL_MAP: Record<string, string> = {
   java: "JAVA",
 };
 
-type Props = { markdown: string };
+type Props = { markdown: string; categories?: string[] };
 type CodeProps = { className?: string };
 type CodeElement = React.ReactElement<CodeProps>;
 
@@ -138,7 +139,7 @@ const PreWithCopy = (props: React.HTMLAttributes<HTMLPreElement>) => {
   );
 };
 
-export default function PostBody({ markdown }: Props) {
+export default function PostBody({ markdown, categories }: Props) {
   return (
     <section className="mt-10">
       <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_260px]">
@@ -223,6 +224,25 @@ export default function PostBody({ markdown }: Props) {
           >
             {markdown}
           </ReactMarkdown>
+
+          {Array.isArray(categories) && categories.length > 0 && (
+            <section
+              aria-label="Post categories"
+              className="not-prose mt-10 flex flex-wrap items-center gap-2 text-sm"
+            >
+              {categories.map((category) => (
+                <CategoryBadge
+                  key={category}
+                  category={category}
+                  classes="relative z-30 pointer-events-auto inline-flex items-center h-6 px-2
+                  rounded-md text-xs font-medium leading-none
+                  text-zinc-700 bg-zinc-100 hover:bg-zinc-200
+                  dark:text-zinc-300 dark:bg-zinc-800 dark:hover:bg-zinc-700
+                  transition-colors"
+                />
+              ))}
+            </section>
+          )}
 
           <hr className="my-12" />
 
