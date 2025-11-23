@@ -2,7 +2,7 @@ import { kv } from "@vercel/kv";
 import { NextRequest, NextResponse } from "next/server";
 
 type Params = { slug: string };
-type Props = { params: Params };
+type RouteContext = { params: Promise<Params> };
 
 export const runtime = "edge";
 
@@ -25,7 +25,7 @@ async function rateLimit(key: string, limit = 10, ttl = 60) {
   return count <= limit;
 }
 
-export async function GET(_req: NextRequest, { params }: Props) {
+export async function GET(_req: NextRequest, { params }: RouteContext) {
   const { slug } = await params;
 
   try {
@@ -36,7 +36,7 @@ export async function GET(_req: NextRequest, { params }: Props) {
   }
 }
 
-export async function POST(req: NextRequest, { params }: Props) {
+export async function POST(req: NextRequest, { params }: RouteContext) {
   const { slug } = await params;
 
   try {
