@@ -3,6 +3,7 @@ import Script from "next/script";
 import { Suspense } from "react";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
+import ScrollToTop from "@/components/common/ScrollToTop";
 import AnalyticsTracker from "@/components/common/AnalyticsTracker";
 import BuyMeCoffeeWidget from "@/components/common/BuyMeCoffeeWidget";
 import "./globals.css";
@@ -48,6 +49,8 @@ export default function RootLayout({
         />
       </head>
       <body className="flex min-h-screen flex-col dark:bg-black transition-colors">
+        <ScrollToTop />
+
         {/* Google Analytics */}
         {GA_ID && (
           <>
