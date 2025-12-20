@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPostBySlug, getThumbnailUrl } from "@/lib/contentful";
 import Error from "@/components/common/Error";
+import { ReadingProgressBar } from "@/components/post/ReadingProgressBar";
 import PostHead from "@/components/post/PostHead";
 import PostBody from "@/components/post/PostBody";
 
@@ -60,6 +61,7 @@ export default async function Post({ params }: Props) {
 
   return (
     <>
+      <ReadingProgressBar />
       <PostHead post={post} />
       <PostBody
         markdown={String(post.fields.content)}
