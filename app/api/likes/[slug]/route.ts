@@ -4,8 +4,6 @@ import { NextRequest, NextResponse } from "next/server";
 type Params = { slug: string };
 type RouteContext = { params: Promise<Params> };
 
-export const runtime = "edge";
-
 function getClientIp(req: NextRequest) {
   return (
     req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
