@@ -1,13 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
-import { type PostEntry, getThumbnailUrl, formatPublishedAt } from "@/lib/contentful";
+import {
+  type PostEntry,
+  getPostStatus,
+  getThumbnailUrl,
+  formatPublishedAt,
+} from "@/lib/contentful";
 import CategoryBadge from "../common/CategoryBadge";
+import StatusBadge from "../common/StatusBadge";
 
 type Props = { post: PostEntry };
 
 export default function PostItem({ post }: Props) {
   const { title, slug, description, publishedAt } = post.fields;
   const categories = (post.fields.category ?? []) as string[];
+  const status = getPostStatus(post);
   const thumbnailUrl = getThumbnailUrl(post.fields.thumbnail);
 
   return (
@@ -29,6 +36,14 @@ export default function PostItem({ post }: Props) {
       />
       <div className="relative z-20 pointer-events-none">
         <div className="relative h-[200px] w-full bg-gray-50 dark:bg-zinc-800">
+          {status && (
+            <StatusBadge
+              type={status}
+              className="absolute top-0 left-0 z-1 px-2 py-1 md:py-0.5"
+              isTranslucent={true}
+            />
+          )}
+
           {thumbnailUrl ? (
             <Image
               src={thumbnailUrl}

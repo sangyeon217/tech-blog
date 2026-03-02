@@ -22,5 +22,6 @@ export interface PostSkeleton extends EntrySkeletonType {
 export type CategoryItem = { name: string; count: number };
 export type PostCollection = EntryCollection<PostSkeleton>;
 export type PostEntry = Entry<PostSkeleton>;
+export type PostStatus = "NEW" | "UPDATED";
 
 export type FetchResult<T> = { success: true; data: T } | { success: false; error: unknown };

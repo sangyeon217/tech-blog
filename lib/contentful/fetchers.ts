@@ -83,6 +83,7 @@ export async function getPosts({
       "fields.category",
       "fields.thumbnail",
       "fields.publishedAt",
+      "sys.updatedAt",
     ],
     ...(category && category !== "All" ? { "fields.category[all]": category } : {}),
   };
