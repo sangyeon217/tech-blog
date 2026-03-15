@@ -112,7 +112,7 @@ export default function LikeButton({ slug }: Props) {
       />
 
       <span className={`transition-transform duration-200 ${liked ? "scale-110" : ""}`}>
-        {loading ? "..." : (count ?? 0)}
+        {loading ? "..." : count && count > 0 ? count : "좋아요"}
       </span>
 
       <span className="sr-only">{liked ? "이미 좋아요를 눌렀습니다" : "좋아요 누르기"}</span>
