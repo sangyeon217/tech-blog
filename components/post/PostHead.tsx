@@ -6,6 +6,7 @@ import {
   formatPublishedAt,
 } from "@/lib/contentful";
 import LikeButton from "./LikeButton";
+import CommentButton from "./CommentButton";
 import StatusBadge from "../common/StatusBadge";
 
 type Props = { post: PostEntry };
@@ -31,7 +32,10 @@ export default function PostHead({ post }: Props) {
         </div>
 
         <div className="md:pt-1">
-          <LikeButton slug={String(slug)} />
+          <div className="flex items-center gap-2">
+            <LikeButton slug={String(slug)} />
+            <CommentButton />
+          </div>
         </div>
       </div>
 
