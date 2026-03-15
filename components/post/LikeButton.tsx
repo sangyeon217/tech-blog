@@ -27,40 +27,72 @@ export default function LikeButton({ slug }: Props) {
     init();
   }, [slug, storageKey]);
 
-  const rollbackLike = () => {
-    setLiked(false);
-    localStorage.removeItem(storageKey);
+  const rollback = (prevLiked: boolean, prevCount: number | null) => {
+    setLiked(prevLiked);
+    setCount(prevCount);
+    if (prevLiked) {
+      localStorage.setItem(storageKey, "1");
+    } else {
+      localStorage.removeItem(storageKey);
+    }
   };
 
-  const onLike = async () => {
-    if (liked) return;
+  const toggleLike = async () => {
+    if (loading) return;
 
-    setLiked(true);
-    setCount((c) => (typeof c === "number" ? c + 1 : 1));
-    localStorage.setItem(storageKey, "1");
+    const prevLiked = liked;
+    const prevCount = count;
+
+    if (!liked) {
+      setLiked(true);
+      setCount((c) => (typeof c === "number" ? c + 1 : 1));
+      localStorage.setItem(storageKey, "1");
+      setLoading(true);
+
+      try {
+        const res = await fetch(`/api/likes/${encodeURIComponent(slug)}`, {
+          method: "POST",
+        });
+
+        if (!res.ok) throw new Error("Failed to like");
+
+        const data = await res.json();
+        setCount(data.count ?? 0);
+      } catch {
+        rollback(prevLiked, prevCount);
+      } finally {
+        setLoading(false);
+      }
+
+      return;
+    }
+
+    setLiked(false);
+    setCount((c) => (typeof c === "number" ? Math.max(0, c - 1) : 0));
+    localStorage.removeItem(storageKey);
+    setLoading(true);
 
     try {
       const res = await fetch(`/api/likes/${encodeURIComponent(slug)}`, {
-        method: "POST",
+        method: "DELETE",
       });
 
-      if (!res.ok) {
-        rollbackLike();
-        return;
-      }
+      if (!res.ok) throw new Error("Failed to unlike");
 
       const data = await res.json();
       setCount(data.count ?? 0);
     } catch {
-      rollbackLike();
+      rollback(prevLiked, prevCount);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <button
-      onClick={onLike}
-      disabled={liked || loading}
-      aria-label="좋아요"
+      onClick={toggleLike}
+      disabled={loading}
+      aria-label={liked ? "좋아요 취소" : "좋아요"}
       className={`inline-flex items-center gap-2 px-3 py-1.5 
         rounded-full border text-sm transition-all cursor-pointer 
         ${
@@ -80,7 +112,7 @@ export default function LikeButton({ slug }: Props) {
       />
 
       <span className={`transition-transform duration-200 ${liked ? "scale-110" : ""}`}>
-        {loading ? "..." : count ?? 0}
+        {loading ? "..." : (count ?? 0)}
       </span>
 
       <span className="sr-only">{liked ? "이미 좋아요를 눌렀습니다" : "좋아요 누르기"}</span>

@@ -29,7 +29,7 @@ export async function GET(_req: NextRequest, { params }: RouteContext) {
   try {
     const count = (await kv.get<number>(`likes:${slug}`)) ?? 0;
     return NextResponse.json({ count });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ count: 0 }, { status: 500 });
   }
 }
@@ -46,7 +46,26 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
 
     const newCount = await kv.incr(`likes:${slug}`);
     return NextResponse.json({ count: newCount });
-  } catch (error) {
+  } catch {
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+}
+
+export async function DELETE(req: NextRequest, { params }: RouteContext) {
+  const { slug } = await params;
+
+  try {
+    const ip = getClientIp(req);
+    const ok = await rateLimit(`ratelimit:${slug}:${ip}`, 10, 60);
+    if (!ok) {
+      return new NextResponse("Too Many Requests", { status: 429 });
+    }
+
+    const currentCount = (await kv.get<number>(`likes:${slug}`)) ?? 0;
+    const newCount = Math.max(0, currentCount - 1);
+    await kv.set(`likes:${slug}`, newCount);
+    return NextResponse.json({ count: newCount });
+  } catch {
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
